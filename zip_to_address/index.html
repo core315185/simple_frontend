@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>郵便番号から住所自動入力</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+  <h1>住所自動入力フォーム</h1>
+  <form>
+    <label for="zipcode">郵便番号：</label>
+    <input type="text" id="zipcode" name="zipcode" placeholder="例: 1000014"><br><br>
+
+    <label for="prefecture">都道府県：</label>
+    <input type="text" id="prefecture" name="prefecture"><br><br>
+
+    <label for="address1">市区町村：</label>
+    <input type="text" id="address1" name="address1"><br><br>
+
+    <label for="address2">町域：</label>
+    <input type="text" id="address2" name="address2"><br><br>
+
+    <label for="address3">番地・建物名など：</label>
+    <input type="text" id="address3" name="address3"><br><br>
+  </form>
+
+  <script>
+    document.getElementById("zipcode").addEventListener("blur", function() {
+      const zipcode = this.value.replace(/[^0-9]/g, "");
+      if (zipcode.length !== 7) {
+        alert("郵便番号は7桁で入力してください。");
+        return;
+      }
+      const zip3 = zipcode.slice(0, 3);
+      const zip4 = zipcode.slice(3);
+      const apiUrl = `https://madefor.github.io/postal-code-api/api/v1/${zip3}/${zip4}.json`;
+
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) throw new Error("APIリクエストに失敗しました。");
+          return response.json();
+        })
+        .then(data => {
+          if (!data || !data.data || data.data.length === 0) {
+            alert("住所情報が見つかりませんでした。");
+            return;
+          }
+          const address = data.data[0].ja;
+          document.getElementById("prefecture").value = address.prefecture;
+          document.getElementById("address1").value = address.address1;
+          document.getElementById("address2").value = address.address2;
+          document.getElementById("address3").value = address.address3;
+        })
+        .catch(error => {
+          console.error("エラー:", error);
+          alert("住所の取得中にエラーが発生しました。");
+        });
+    });
+  </script>
+</body>
+</html>
