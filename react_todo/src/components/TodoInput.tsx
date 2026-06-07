@@ -26,7 +26,7 @@ import { useState } from "react";
 
 // このコンポーネントが受け取るpropsの型定義
 interface Props {
-  onAdd: (text: string) => void;  // 追加時に呼ぶ関数。引数はstring、戻り値なし
+  onAdd: (text: string) => void; // 追加時に呼ぶ関数。引数はstring、戻り値なし
 }
 
 function TodoInput({ onAdd }: Props) {

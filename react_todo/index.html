@@ -1,13 +1,35 @@
 <!doctype html>
-<html lang="en">
+<!--
+  index.html — ブラウザが最初に読み込むHTMLファイル
+  ================================================================
+
+  【Reactアプリの仕組み】
+  このHTMLファイル自体はほぼ空です。
+  Reactが JavaScript でコンテンツを動的に生成して
+  <div id="root"> の中に書き込みます。
+
+  <div id="root">
+    ↑ Reactアプリが描画される場所。ここに全コンポーネントが入ります。
+
+  <script type="module" src="/src/main.tsx">
+    ↑ JavaScriptのエントリーポイント（main.tsx）を読み込みます。
+      type="module" により、ES Modules（import/export）が使えます。
+      Viteが開発中はこのファイルをリアルタイムに変換して配信します。
+  ================================================================
+-->
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <!-- ファビコン（ブラウザのタブに表示される小さなアイコン） -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- スマートフォンなどで正しく表示するためのビューポート設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>react_todo</title>
   </head>
   <body>
+    <!-- Reactアプリはここに描画される。中身はJavaScriptが書き込む -->
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Viteが処理するJavaScriptのエントリーポイント -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
